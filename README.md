@@ -5,9 +5,9 @@ A naval battle game, made entirely with Java, which the player battles against t
  - Each player places 10 ships on the board
  - During the game, only the player's current situation is shown on the screen
  - The game uses the following capition: 
-  - N to represent the ship placed
-  - "*" to represent a precise shot
-  - "-" to represent a shot into water
+   - "N" to represent the ship placed
+   - "*" to represent a precise shot
+   - "-" to represent a shot into water
  - At the end, the winner is indicated and both the boards are printed on the screen.
 
 
