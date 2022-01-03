@@ -4,6 +4,7 @@ import com.sun.source.tree.WhileLoopTree;
 import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -43,10 +44,10 @@ public class Main {
         }
 
         Scanner scan = new Scanner(System.in);
-        String[] selectedPositions = new String[5];
+        String[] selectedPositions = new String[10];
         for (int i = 0; i < selectedPositions.length; i++) {
-            System.out.print("Insira as posições dos 5 navios: ");
-            selectedPositions[i] = scan.nextLine();
+            System.out.print("Insira os navios no tabuleiro: ");
+            selectedPositions[i] = scan.nextLine().toUpperCase();
             String option = selectedPositions[i];
             switch (option) {
                 case "A0":
