@@ -1,12 +1,5 @@
 package com.letscode.navalbattle;
-
-import com.sun.source.tree.WhileLoopTree;
-import jdk.swing.interop.SwingInterOpUtils;
-
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -35,6 +28,349 @@ public class Main {
                         {"|", "J", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
                         {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"}
                 };
+        String[][] boardAI =
+                {
+                        {"|", " ", "|", "0", "|", "1", "|", "2", "|", "3", "|", "4", "|", "5", "|", "6", "|", "7", "|", "8", "|", "9", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "A", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "B", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "C", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "D", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "E", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "F", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "G", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "H", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "I", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"},
+                        {"|", "J", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|", " ", "|"},
+                        {"-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"}
+                };
+        int max = 100;
+        Random rng = new Random();
+        Set<Integer> generated = new LinkedHashSet<>();
+        while (generated.size() < 10) {
+            Integer next = rng.nextInt(max);
+            // As we're adding to a set, this will automatically do a containment check
+            generated.add(next);
+        }
+        Integer[] optionAI = new Integer[10];
+        for (int i = 0; i < optionAI.length; i++) {
+            optionAI = generated.toArray(new Integer[0]);
+            switch (optionAI[i]) {
+                case 0:
+                    boardAI[2][3] = "N";
+                    break;
+                case 1:
+                    boardAI[2][5] = "N";
+                    break;
+                case 2:
+                    boardAI[2][7] = "N";
+                    break;
+                case 3:
+                    boardAI[2][9] = "N";
+                    break;
+                case 4:
+                    boardAI[2][11] = "N";
+                    break;
+                case 5:
+                    boardAI[2][13] = "N";
+                    break;
+                case 6:
+                    boardAI[2][15] = "N";
+                    break;
+                case 7:
+                    boardAI[2][17] = "N";
+                    break;
+                case 8:
+                    boardAI[2][19] = "N";
+                    break;
+                case 9:
+                    boardAI[2][21] = "N";
+                    break;
+                case 10:
+                    boardAI[3][3] = "N";
+                    break;
+                case 11:
+                    boardAI[4][5] = "N";
+                    break;
+                case 12:
+                    boardAI[4][7] = "N";
+                    break;
+                case 13:
+                    boardAI[4][9] = "N";
+                    break;
+                case 14:
+                    boardAI[4][11] = "N";
+                    break;
+                case 15:
+                    boardAI[4][13] = "N";
+                    break;
+                case 16:
+                    boardAI[4][15] = "N";
+                    break;
+                case 17:
+                    boardAI[4][17] = "N";
+                    break;
+                case 18:
+                    boardAI[4][19] = "N";
+                    break;
+                case 19:
+                    boardAI[4][21] = "N";
+                    break;
+                case 20:
+                    boardAI[6][3] = "N";
+                    break;
+                case 21:
+                    boardAI[6][5] = "N";
+                    break;
+                case 22:
+                    boardAI[6][7] = "N";
+                    break;
+                case 23:
+                    boardAI[6][9] = "N";
+                    break;
+                case 24:
+                    boardAI[6][11] = "N";
+                    break;
+                case 25:
+                    boardAI[6][13] = "N";
+                    break;
+                case 26:
+                    boardAI[6][15] = "N";
+                    break;
+                case 27:
+                    boardAI[6][17] = "N";
+                    break;
+                case 28:
+                    boardAI[6][19] = "N";
+                    break;
+                case 29:
+                    boardAI[6][21] = "N";
+                    break;
+                case 30:
+                    boardAI[8][3] = "N";
+                    break;
+                case 31:
+                    boardAI[8][5] = "N";
+                    break;
+                case 32:
+                    boardAI[8][7] = "N";
+                    break;
+                case 33:
+                    boardAI[8][9] = "N";
+                    break;
+                case 34:
+                    boardAI[8][11] = "N";
+                    break;
+                case 35:
+                    boardAI[8][13] = "N";
+                    break;
+                case 36:
+                    boardAI[8][15] = "N";
+                    break;
+                case 37:
+                    boardAI[8][17] = "N";
+                    break;
+                case 38:
+                    boardAI[8][19] = "N";
+                    break;
+                case 39:
+                    boardAI[8][21] = "N";
+                    break;
+                case 40:
+                    boardAI[10][3] = "N";
+                    break;
+                case 41:
+                    boardAI[10][5] = "N";
+                    break;
+                case 42:
+                    boardAI[10][7] = "N";
+                    break;
+                case 43:
+                    boardAI[10][9] = "N";
+                    break;
+                case 44:
+                    boardAI[10][11] = "N";
+                    break;
+                case 45:
+                    boardAI[10][13] = "N";
+                    break;
+                case 46:
+                    boardAI[10][15] = "N";
+                    break;
+                case 47:
+                    boardAI[10][17] = "N";
+                    break;
+                case 48:
+                    boardAI[10][19] = "N";
+                    break;
+                case 49:
+                    boardAI[10][21] = "N";
+                    break;
+                case 50:
+                    boardAI[12][3] = "N";
+                    break;
+                case 51:
+                    boardAI[12][5] = "N";
+                    break;
+                case 52:
+                    boardAI[12][7] = "N";
+                    break;
+                case 53:
+                    boardAI[12][9] = "N";
+                    break;
+                case 54:
+                    boardAI[12][11] = "N";
+                    break;
+                case 55:
+                    boardAI[12][13] = "N";
+                    break;
+                case 56:
+                    boardAI[12][15] = "N";
+                    break;
+                case 57:
+                    boardAI[12][17] = "N";
+                    break;
+                case 58:
+                    boardAI[12][19] = "N";
+                    break;
+                case 59:
+                    boardAI[12][21] = "N";
+                    break;
+                case 60:
+                    boardAI[14][3] = "N";
+                    break;
+                case 61:
+                    boardAI[14][5] = "N";
+                    break;
+                case 62:
+                    boardAI[14][7] = "N";
+                    break;
+                case 63:
+                    boardAI[14][9] = "N";
+                    break;
+                case 64:
+                    boardAI[14][11] = "N";
+                    break;
+                case 65:
+                    boardAI[14][13] = "N";
+                    break;
+                case 66:
+                    boardAI[14][15] = "N";
+                    break;
+                case 67:
+                    boardAI[14][17] = "N";
+                    break;
+                case 68:
+                    boardAI[14][19] = "N";
+                    break;
+                case 69:
+                    boardAI[14][21] = "N";
+                    break;
+                case 70:
+                    boardAI[16][3] = "N";
+                    break;
+                case 71:
+                    boardAI[16][5] = "N";
+                    break;
+                case 72:
+                    boardAI[16][7] = "N";
+                    break;
+                case 73:
+                    boardAI[16][9] = "N";
+                    break;
+                case 74:
+                    boardAI[16][11] = "N";
+                    break;
+                case 75:
+                    boardAI[16][13] = "N";
+                    break;
+                case 76:
+                    boardAI[16][15] = "N";
+                    break;
+                case 77:
+                    boardAI[16][17] = "N";
+                    break;
+                case 78:
+                    boardAI[16][19] = "N";
+                    break;
+                case 79:
+                    boardAI[16][21] = "N";
+                    break;
+                case 80:
+                    boardAI[18][3] = "N";
+                    break;
+                case 81:
+                    boardAI[18][5] = "N";
+                    break;
+                case 82:
+                    boardAI[18][7] = "N";
+                    break;
+                case 83:
+                    boardAI[18][9] = "N";
+                    break;
+                case 84:
+                    boardAI[18][11] = "N";
+                    break;
+                case 85:
+                    boardAI[18][13] = "N";
+                    break;
+                case 86:
+                    boardAI[18][15] = "N";
+                    break;
+                case 87:
+                    boardAI[18][17] = "N";
+                    break;
+                case 88:
+                    boardAI[18][19] = "N";
+                    break;
+                case 89:
+                    boardAI[18][21] = "N";
+                    break;
+                case 90:
+                    boardAI[20][3] = "N";
+                    break;
+                case 91:
+                    boardAI[20][5] = "N";
+                    break;
+                case 92:
+                    boardAI[20][7] = "N";
+                    break;
+                case 93:
+                    boardAI[20][9] = "N";
+                    break;
+                case 94:
+                    boardAI[20][11] = "N";
+                    break;
+                case 95:
+                    boardAI[20][13] = "N";
+                    break;
+                case 96:
+                    boardAI[20][15] = "N";
+                    break;
+                case 97:
+                    boardAI[20][17] = "N";
+                    break;
+                case 98:
+                    boardAI[20][19] = "N";
+                    break;
+                case 99:
+                    boardAI[20][21] = "N";
+                    break;
+                default:
+                    optionAI[i] = (int) Math.round(Math.random() * 100);
+
+            }
+        }
+
 
         for (String[] row : board) {
             for (String position : row) {
@@ -45,10 +381,10 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
         String[] selectedPositions = new String[10];
-        for (int i = 0; i < selectedPositions.length; i++) {
+        for (int j = 0; j < selectedPositions.length; j++) {
             System.out.print("Insira os navios no tabuleiro: ");
-            selectedPositions[i] = scan.nextLine().toUpperCase();
-            String option = selectedPositions[i];
+            selectedPositions[j] = scan.nextLine().toUpperCase();
+            String option = selectedPositions[j];
             switch (option) {
                 case "A0":
                     board[2][3] = "N";
@@ -143,28 +479,28 @@ public class Main {
                 case "D0":
                     board[8][3] = "N";
                     break;
-                    case "D1":
+                case "D1":
                     board[8][5] = "N";
                     break;
-                    case "D2":
+                case "D2":
                     board[8][7] = "N";
                     break;
-                    case "D3":
+                case "D3":
                     board[8][9] = "N";
                     break;
-                    case "D4":
+                case "D4":
                     board[8][11] = "N";
                     break;
-                    case "D5":
+                case "D5":
                     board[8][13] = "N";
                     break;
-                    case "D6":
+                case "D6":
                     board[8][15] = "N";
                     break;
-                    case "D7":
+                case "D7":
                     board[8][17] = "N";
                     break;
-                    case "D8":
+                case "D8":
                     board[8][19] = "N";
                     break;
                 case "D9":
@@ -350,10 +686,10 @@ public class Main {
                 case "J9":
                     board[20][21] = "N";
                     break;
-                    default:
+                default:
                     System.out.println("Por favor, insira um valor válido");
                     break;
-               }
+            }
             for (String[] row : board) {
                 for (String position : row) {
                     System.out.print(position);
@@ -361,5 +697,13 @@ public class Main {
                 System.out.println();
             }
         }
+        System.out.println("--------- A BATALHA COMEÇOU!!!! -------------");
+        System.out.print("Onde deseja atacar? ");
+        String attack = scan.nextLine();
+
     }
 }
+
+
+
+
