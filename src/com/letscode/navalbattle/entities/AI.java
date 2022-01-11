@@ -726,6 +726,22 @@ public class AI {
         }
         System.out.println(attackAI);
     }
+
+    public static void placeShips(String[][] board, int numberOfShips){
+        int boardRows = (board.length - 2)/2;
+        int boardColumns = (board[0].length - 2)/2;
+        int max = boardRows * boardColumns;
+        Random rng = new Random();
+        Set<Integer> generated = new LinkedHashSet<>();
+        while (generated.size() < numberOfShips) {
+            generated.add(rng.nextInt(max));
+        }
+        for (Integer i : generated) {
+            int rowPosition = i/boardColumns;
+            int colPosition = i - (rowPosition * boardColumns);
+            board[2 * rowPosition + 2][2 * colPosition + 2] = "N";
+        }
+    }
 }
 
 
