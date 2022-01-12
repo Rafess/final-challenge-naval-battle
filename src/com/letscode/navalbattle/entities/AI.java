@@ -11,6 +11,10 @@ public class AI extends Player{
         super("BattleAI", boardSize);
     }
 
+    public AI (String name, int[] boardSize){
+        super(name, boardSize);
+    }
+
     private String generateRandomField(){
         int boardRows = (this.board.length - 2)/2;
         int boardColumns = (this.board[0].length - 2)/2;

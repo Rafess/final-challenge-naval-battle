@@ -16,7 +16,7 @@ public class Main {
             return;
         }
         GameHandler.checkStart(players);
-        GameHandler.startGame(players);
-        
+        Player lastStanding = GameHandler.startGame(players);
+        GameHandler.endGame(lastStanding, players);
     }
 }

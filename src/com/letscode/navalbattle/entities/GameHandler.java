@@ -34,7 +34,12 @@ public class GameHandler {
         int[] boardSize = difficultHandler();
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            players[i] = new Player(arrayOfNames[i],boardSize);
+            String nameSuffix = arrayOfNames[i].substring(arrayOfNames[i].length()-2);
+            if (nameSuffix.equals("AI")){
+                players[i] = new AI(arrayOfNames[i], boardSize);
+            } else {
+                players[i] = new Player(arrayOfNames[i], boardSize);
+            }
         }
         if (numberOfPlayers == 1){
             players[1] = new AI(boardSize);
@@ -47,7 +52,7 @@ public class GameHandler {
         System.out.println("Now, select a difficulty:" + "\n" +
                             "1 - Easy (3x3) | 2 - Medium (5x5) | 3 - Hard (10x10) | 4 - Custom Board Size" );
         int selector = Integer.parseInt(scanner.nextLine());
-        while (selector > 4 || selector < 1){
+        while (selector > available[available.length-1] || selector < available[0]){
             System.out.println("Please, provide a number between 1~4");
             selector = scanner.nextInt();
         }
@@ -136,7 +141,7 @@ public class GameHandler {
                             boolean shot = handleAttack(players[i], players[j]);
                             if (shot){
                                 if (!players[j].isAlive()){
-                                    System.out.printf("%s lays in the bottom of the sea.%n", players[j].name);
+                                    System.out.printf("%s lays in the bottom of the sea.%n%n%n", players[j].name);
                                     alive--;
                                 }
                             }
