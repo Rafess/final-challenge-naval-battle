@@ -1,9 +1,6 @@
 package com.letscode.navalbattle.entities;
 
-import java.util.LinkedHashSet;
-import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 public class AI extends Player{
 

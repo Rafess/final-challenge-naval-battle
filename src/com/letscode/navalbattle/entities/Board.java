@@ -1,9 +1,6 @@
 package com.letscode.navalbattle.entities;
 
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
 
 public class Board {
 
@@ -93,5 +90,30 @@ public class Board {
         int maxOccurrence = getBoardCapacity(board);
         return counter == maxOccurrence;
     };
+
+//    private static int printHeader(Player player){
+//        int nameLength = player.name.length();
+//        int boardLength = player.board[0].length;
+//        int extraSpace = (Math.max(nameLength, boardLength) - Math.min(nameLength, boardLength))/2;
+//        for (int i = 0; i < extraSpace; i++) {
+//            System.out.println("-");
+//        }
+//        System.out.printf(" %s ", player.name);
+//        for (int i = 0; i < extraSpace; i++) {
+//            System.out.println("-");
+//        }
+//        return extraSpace;
+//    }
+
+//    public static void reviewAllBoards(Player[] players){
+//        for (int i = 0; i < players.length; i++) {
+//            printHeader(players[i]);
+//            System.out.println("      ");
+////            for (int j = 0; j < ; j++) {
+////
+////            }
+//
+//        }
+//    }
 
 }

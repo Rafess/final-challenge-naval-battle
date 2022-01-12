@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GameHandler {
 
-    private static final Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
 
     public static String[] dictionary() {
         return new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -159,7 +159,16 @@ public class GameHandler {
     }
 
     public static void endGame(Player winner, Player[] players){
-
+        if (!(winner instanceof AI)){
+            System.out.printf("\n\n\n\n" + "As the cannons begin to cool, and waves drive the bodies ashore," + "\n" +
+                                "may this day be graved into history." + "\n" +
+                                "Rejoice, %s, for you have defeated all your enemies!" + "\n" +
+                                "shall their blood paint the ocean red" + "\n" +
+                                "and all their past treasures, keep your pockets fed!", winner.name);
+        } else{
+            System.out.printf("\n\n\n\n"+"As brave as they could be, no man nor woman could %s defeat!" + "\n" +
+                                "For it is indeed, a killer machine!", winner.name);
+        }
     }
 
 }
