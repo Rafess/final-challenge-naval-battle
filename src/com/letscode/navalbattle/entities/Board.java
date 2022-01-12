@@ -41,17 +41,19 @@ public class Board {
     }
 
     public static String getBoardField(String fieldCode, String[][] board){
-        int[] numberCode = GameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
+        int[] numberCode = convertFieldCodeToFieldNumber(fieldCode, board);
         return board[2 * numberCode[0] + 2][2 * numberCode[1] + 2];
     }
 
-    public static void setBoardField(String fieldCode, String[][] board, String checkMark){
-        int[] numberCode = GameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
+    public static boolean setBoardField(String fieldCode, String[][] board, String checkMark){
+        int[] numberCode = convertFieldCodeToFieldNumber(fieldCode, board);
         try {
             board[2 * numberCode[0] + 2][2 * numberCode[1] + 2] = checkMark;
+            return true;
         } catch (Exception e){
-            System.out.println("Campo fora do tabuleiro" + "\n" +
-                                "Por favor, insira um campo válido.");
+            System.out.println("Field out of board" + "\n" +
+                                "Please, provide a valid field.");
+            return false;
         }
     }
 
@@ -90,6 +92,55 @@ public class Board {
         int maxOccurrence = getBoardCapacity(board);
         return counter == maxOccurrence;
     };
+
+    public static int[] convertFieldCodeToFieldNumber(String fieldCode, String[][] board){
+        int boardColumns = (board[0].length - 2)/2;
+        int[] exit = new int[]{board.length +1, boardColumns + 1, 0};
+
+        if(fieldCode.length() < 2){
+            return exit;
+        }
+
+        char[] arrayField = fieldCode.toCharArray();
+        Object[] newArray = new Object[arrayField.length];
+        for (int i = 0; i < arrayField.length; i++) {
+            try{
+                newArray[i] = Integer.parseInt(String.valueOf(arrayField[i]));
+            } catch (Exception e){
+                newArray[i] = String.valueOf(arrayField[i]).toUpperCase();
+            }
+        }
+
+        int rowCodeLength = 0;
+        int colCodeLength = 0;
+        for (int i = 0; i < newArray.length; i++) {
+            if(newArray[i] instanceof String){
+                rowCodeLength = i + 1;
+            } else {
+                colCodeLength = i + 1;
+            }
+        }
+
+        if(rowCodeLength >= colCodeLength || colCodeLength != fieldCode.length()){
+            return exit;
+        }
+
+        String rowCode = fieldCode.substring(0,rowCodeLength);
+        int colCode = Integer.parseInt(fieldCode.substring(rowCodeLength,colCodeLength));
+        int index = 0;
+        for (int i = 0; i < dictionary.length; i++) {
+            if(dictionary[i].equals(rowCode)){
+                index = i;
+            }
+        }
+        if(colCode > (boardColumns -1) || index > (board.length - 1)){
+            return exit;
+        };
+        int numericFieldCode = index * boardColumns + colCode;
+        int rowPosition = numericFieldCode/boardColumns;
+        int colPosition = numericFieldCode - (rowPosition * boardColumns);
+        return new int[]{rowPosition, colPosition,numericFieldCode};
+    }
 
 //    private static int printHeader(Player player){
 //        int nameLength = player.name.length();

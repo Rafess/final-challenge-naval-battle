@@ -5,7 +5,6 @@ import java.util.*;
 public class GameHandler {
 
     public static final Scanner scanner = new Scanner(System.in);
-    private static ExceptionHandler e = new ExceptionHandler();
 
     public static String[] dictionary() {
         return new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -43,8 +42,11 @@ public class GameHandler {
         int[] boardSize = difficultHandler();
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            String nameSuffix = arrayOfNames[i].substring(arrayOfNames[i].length()-2);
-            if (nameSuffix.equals("AI")){
+            String nameSuffix = "";
+            if(arrayOfNames[i].length()>=2) {
+                nameSuffix = arrayOfNames[i].substring(arrayOfNames[i].length() - 2);
+            }
+            if (nameSuffix.equals("AI")) {
                 players[i] = new AI(arrayOfNames[i], boardSize);
             } else {
                 players[i] = new Player(arrayOfNames[i], boardSize);
@@ -105,8 +107,9 @@ public class GameHandler {
                 if(!(players[i] instanceof AI)) {
                     System.out.printf("%s, you have %d ship(s) left" + "\n", players[i].name, counter);
                 }
-                Board.setBoardField(players[i].placeShip(), players[i].board, "N");
-                counter--;
+                if(Board.setBoardField(players[i].placeShip(), players[i].board, "N")) {
+                    counter--;
+                };
                 if(!(players[i] instanceof AI)) {
                     Board.printBoard(players[i].board);
                 }
@@ -115,25 +118,6 @@ public class GameHandler {
                 System.out.println("\n");
             }
         }
-    }
-
-    public static int[] convertFieldCodeToFieldNumber(String fieldCode, String[][] board){
-        int boardColumns = (board[0].length - 2)/2;
-        String rowCode = fieldCode.substring(0,1);
-        int colCode = Integer.parseInt(fieldCode.substring(1,fieldCode.length()));
-        int index = 0;
-        for (int i = 0; i < dictionary().length; i++) {
-            if(dictionary()[i].equals(rowCode)){
-                index = i;
-            }
-        }
-        if(colCode > (boardColumns -1) || index > (board.length - 1)){
-            return new int[]{board.length +1, boardColumns + 1, 0};
-        };
-        int numericFieldCode = index * boardColumns + colCode;
-        int rowPosition = numericFieldCode/boardColumns;
-        int colPosition = numericFieldCode - (rowPosition * boardColumns);
-        return new int[]{rowPosition, colPosition,numericFieldCode};
     }
 
     public static boolean handleAttack(Player attacker, Player target){
