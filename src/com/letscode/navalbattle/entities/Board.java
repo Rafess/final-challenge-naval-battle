@@ -1,15 +1,15 @@
 package com.letscode.navalbattle.entities;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
 public class Board {
 
-    GameHandler gameHandler = new GameHandler();
-    final String[] dictionary = gameHandler.dictionary();
+    final static String[] dictionary = GameHandler.dictionary();
 
-    public String[][] generateBoard(int rows, int columns){
+    public static String[][] generateBoard(int rows, int columns){
         int trueRows = (rows*2) + 2;
         int trueColumns = (columns*2) + 2;
 
@@ -43,13 +43,13 @@ public class Board {
         return board;
     }
 
-    public String getBoardField(String fieldCode, String[][] board){
-        int[] numberCode = gameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
+    public static String getBoardField(String fieldCode, String[][] board){
+        int[] numberCode = GameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
         return board[2 * numberCode[0] + 2][2 * numberCode[1] + 2];
     }
 
-    public void setBoardField(String fieldCode, String[][] board, String checkMark){
-        int[] numberCode = gameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
+    public static void setBoardField(String fieldCode, String[][] board, String checkMark){
+        int[] numberCode = GameHandler.convertFieldCodeToFieldNumber(fieldCode, board);
         try {
             board[2 * numberCode[0] + 2][2 * numberCode[1] + 2] = checkMark;
         } catch (Exception e){
@@ -58,7 +58,7 @@ public class Board {
         }
     }
 
-    public void printBoard(String[][] board){
+    public static void printBoard(String[][] board){
         for (String[] row : board) {
             for (String position : row) {
                 System.out.print(position);
@@ -66,4 +66,32 @@ public class Board {
             System.out.println();
         }
     }
+
+    private static int[] getTrueSize (String[][] board){
+        int boardRows = (board.length - 2)/2;
+        int boardColumns = (board[0].length - 2)/2;
+        return new int[]{boardRows, boardColumns};
+    }
+
+    public static int getBoardCapacity (String[][] board){
+        return (int) Math.sqrt(getTrueSize(board)[0] * getTrueSize(board)[1]);
+    }
+
+    public static boolean checkFullBoard (String[][] board, String value){
+        int boardRows = getTrueSize(board)[0];
+        int boardColumns = getTrueSize(board)[1];
+        int counter = 0;
+        String fieldCode;
+        for (int i = 0; i < boardRows; i++) {
+            for (int j = 0; j < boardColumns; j++) {
+                fieldCode = String.format("%s%s", dictionary[i], j);
+                if (Objects.equals(Board.getBoardField(fieldCode, board), value)){
+                    counter++;
+                }
+            }
+        }
+        int maxOccurrence = getBoardCapacity(board);
+        return counter == maxOccurrence;
+    };
+
 }
