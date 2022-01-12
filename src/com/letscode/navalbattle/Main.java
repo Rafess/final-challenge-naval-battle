@@ -23,17 +23,19 @@ public class Main {
     public static boolean playAgain(){
         Scanner scanner = GameHandler.scanner;
         String answer = scanner.nextLine();
+        boolean check = false;
         while (!answer.equals("Y") && !answer.equals("N")){
             System.out.println("\n\n" + "Should you try again?");
             System.out.println("(Y) Yes | (N) No");
             answer = scanner.nextLine().toUpperCase();
             if (answer.equals("Y")){
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                return true;
+                check = true;
             } else if (answer.equals("N")){
-                return false;
+                System.out.println("Farewell then!");
+                check = false;
             }
         }
-        return false;
+        return check;
     }
 }

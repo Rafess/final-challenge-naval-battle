@@ -40,7 +40,7 @@ public class Board {
         return board;
     }
 
-    public static String getBoardField(String fieldCode, String[][] board){
+    public static String getBoardField(String fieldCode, String[][] board) throws Exception{
         int[] numberCode = convertFieldCodeToFieldNumber(fieldCode, board);
         return board[2 * numberCode[0] + 2][2 * numberCode[1] + 2];
     }
@@ -77,20 +77,24 @@ public class Board {
     }
 
     public static boolean checkFullBoard (String[][] board, String value){
-        int boardRows = getTrueSize(board)[0];
-        int boardColumns = getTrueSize(board)[1];
         int counter = 0;
-        String fieldCode;
-        for (int i = 0; i < boardRows; i++) {
-            for (int j = 0; j < boardColumns; j++) {
-                fieldCode = String.format("%s%s", dictionary[i], j);
-                if (Objects.equals(Board.getBoardField(fieldCode, board), value)){
-                    counter++;
+        int maxOccurrence = getBoardCapacity(board);
+        try {
+            int boardRows = getTrueSize(board)[0];
+            int boardColumns = getTrueSize(board)[1];
+            String fieldCode;
+            for (int i = 0; i < boardRows; i++) {
+                for (int j = 0; j < boardColumns; j++) {
+                    fieldCode = String.format("%s%s", dictionary[i], j);
+                    if (Objects.equals(Board.getBoardField(fieldCode, board), value)) {
+                        counter++;
+                    }
                 }
             }
+            return counter == maxOccurrence;
+        } catch (Exception e) {
+            return counter == maxOccurrence;
         }
-        int maxOccurrence = getBoardCapacity(board);
-        return counter == maxOccurrence;
     };
 
     public static int[] convertFieldCodeToFieldNumber(String fieldCode, String[][] board){

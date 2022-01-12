@@ -103,15 +103,21 @@ public class GameHandler {
                 System.out.printf("\n\n\n" + "%s, it's time to distribute your ships!" + "\n", players[i].name);
                 Board.printBoard(players[i].board);
             }
-            while (!Board.checkFullBoard(players[i].board, "N") && counter > 0) {
+            while (!Board.checkFullBoard(players[i].board, "N") || counter > 0) {
                 if(!(players[i] instanceof AI)) {
                     System.out.printf("%s, you have %d ship(s) left" + "\n", players[i].name, counter);
                 }
-                if(Board.setBoardField(players[i].placeShip(), players[i].board, "N")) {
-                    counter--;
-                };
+                try {
+                    String field = players[i].placeShip();
+                    if(Board.getBoardField(field, players[i].board) != "N" &&
+                        Board.setBoardField(field, players[i].board, "N")) {
+                        counter--;
+                    }
                 if(!(players[i] instanceof AI)) {
                     Board.printBoard(players[i].board);
+                }
+                }catch (Exception e){
+                continue;
                 }
             }
             for (int j = 0; j < players[0].board.length * 2; j++) {
@@ -123,15 +129,19 @@ public class GameHandler {
     public static boolean handleAttack(Player attacker, Player target){
         System.out.printf("%s is attacking %s" + "\n", attacker.name, target.name);
         String fieldTarget = attacker.attack();
-        if (Board.getBoardField(fieldTarget, target.board) == "N"){
-            Board.setBoardField(fieldTarget, target.board, "*");
-            System.out.println("Target down!" + "\n--------------------");
-            return true;
-        } else if(Board.getBoardField(fieldTarget, target.board) == " "){
-            Board.setBoardField(fieldTarget, target.board, "-");
+        try {
+            if (Board.getBoardField(fieldTarget, target.board) == "N") {
+                Board.setBoardField(fieldTarget, target.board, "*");
+                System.out.println("Target down!" + "\n--------------------");
+                return true;
+            } else if (Board.getBoardField(fieldTarget, target.board) == " ") {
+                Board.setBoardField(fieldTarget, target.board, "-");
+            }
+            System.out.println("Shot missed" + "\n--------------------");
+            return false;
+        }catch (Exception e){
+            return handleAttack(attacker, target);
         }
-        System.out.println("Shot missed" + "\n--------------------");
-        return false;
     }
 
     public static Player startGame(Player[] players){
