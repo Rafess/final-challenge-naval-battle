@@ -1,4 +1,5 @@
 package com.letscode.navalbattle;
+import com.letscode.navalbattle.entities.ConsoleHandler;
 import com.letscode.navalbattle.entities.GameHandler;
 import com.letscode.navalbattle.entities.Player;
 
@@ -6,6 +7,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        ConsoleHandler.clearConsole();
         boolean replay = true;
         while (replay) {
             Player[] players = GameHandler.runIntro();
@@ -36,6 +38,7 @@ public class Main {
                 check = false;
             }
         }
+        ConsoleHandler.clearConsole();
         return check;
     }
 }
