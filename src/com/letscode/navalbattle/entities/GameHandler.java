@@ -5,6 +5,7 @@ import java.util.*;
 public class GameHandler {
 
     public static final Scanner scanner = new Scanner(System.in);
+    private static ExceptionHandler e = new ExceptionHandler();
 
     public static String[] dictionary() {
         return new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -15,7 +16,15 @@ public class GameHandler {
         System.out.println("Welcome to the Ultimate Battleship Battle!" + "\n" +
                             "How many fighters will be joining us today?" + "\n" +
                             "(Type the number of players)");
-        int numberOfPlayers = Integer.parseInt(scanner.nextLine());
+        int numberOfPlayers = -1;
+        while(numberOfPlayers < 0) {
+            try {
+                numberOfPlayers = Integer.parseInt(scanner.nextLine());
+            } catch (Exception e) {
+                System.out.println("Please, provide a number");
+                numberOfPlayers = -1;
+            }
+        }
         Player[] players = new Player[Math.max(2, numberOfPlayers)];
         String[] arrayOfNames = new String[numberOfPlayers];
         if (numberOfPlayers == 1){
@@ -48,30 +57,42 @@ public class GameHandler {
     }
 
     public static int[] difficultHandler(){
-        int[] available = {1,2,3,4};
+        int[] available = {1, 2, 3, 4};
         System.out.println("Now, select a difficulty:" + "\n" +
-                            "1 - Easy (3x3) | 2 - Medium (5x5) | 3 - Hard (10x10) | 4 - Custom Board Size" );
-        int selector = Integer.parseInt(scanner.nextLine());
-        while (selector > available[available.length-1] || selector < available[0]){
-            System.out.println("Please, provide a number between 1~4");
-            selector = scanner.nextInt();
+                "1 - Easy (3x3) | 2 - Medium (5x5) | 3 - Hard (10x10) | 4 - Custom Board Size");
+        int selector = 0;
+        try {
+            selector = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e){
+            selector = 0;
+            while (selector > available[available.length - 1] || selector < available[0]) {
+                System.out.println("Please, provide a number between 1~4");
+                try {
+                    selector = Integer.parseInt(scanner.nextLine());
+                } catch (Exception exception){
+                    selector = 0;
+                }
+            }
         }
-        switch (selector){
+        switch (selector) {
             case 1:
                 return new int[]{3, 3};
             case 2:
-                return new int[]{5,5};
+                return new int[]{5, 5};
             case 3:
-                return new int[]{10,10};
+                return new int[]{10, 10};
             case 4:
                 System.out.println("How many rows do you wish?");
                 int rows = scanner.nextInt();
                 System.out.println("And how many columns?");
                 int columns = scanner.nextInt();
                 return new int[]{rows, columns};
+            default:
+                break;
         }
         return new int[0];
     }
+
 
     public static void checkStart(Player[] players) {
         for (int i = 0; i < players.length; i++) {
