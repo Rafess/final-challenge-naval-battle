@@ -5,7 +5,6 @@ import java.util.*;
 public class GameHandler {
 
     public static final Scanner scanner = new Scanner(System.in);
-    private static ExceptionHandler e = new ExceptionHandler();
 
     public static String[] dictionary() {
         return new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -43,8 +42,11 @@ public class GameHandler {
         int[] boardSize = difficultHandler();
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            String nameSuffix = arrayOfNames[i].substring(arrayOfNames[i].length()-2);
-            if (nameSuffix.equals("AI")){
+            String nameSuffix = "";
+            if(arrayOfNames[i].length()>=2) {
+                nameSuffix = arrayOfNames[i].substring(arrayOfNames[i].length() - 2);
+            }
+            if (nameSuffix.equals("AI")) {
                 players[i] = new AI(arrayOfNames[i], boardSize);
             } else {
                 players[i] = new Player(arrayOfNames[i], boardSize);
@@ -98,60 +100,54 @@ public class GameHandler {
         for (int i = 0; i < players.length; i++) {
             int counter = Board.getBoardCapacity(players[0].board);
             if (!(players[i] instanceof AI)) {
-                System.out.printf("\n\n\n" + "%s, it's time to distribute your ships!" + "\n", players[i].name);
+                ConsoleHandler.clearConsole();
+                System.out.printf("%s, it's time to distribute your ships!" + "\n\n", players[i].name);
                 Board.printBoard(players[i].board);
             }
-            while (!Board.checkFullBoard(players[i].board, "N") && counter > 0) {
+            while (!Board.checkFullBoard(players[i].board, "N") || counter > 0) {
                 if(!(players[i] instanceof AI)) {
-                    System.out.printf("%s, you have %d ship(s) left" + "\n", players[i].name, counter);
+                    System.out.printf("\n%s, you have %d ship(s) left" + "\n", players[i].name, counter);
                 }
-                Board.setBoardField(players[i].placeShip(), players[i].board, "N");
-                counter--;
+                try {
+                    String field = players[i].placeShip();
+                    if(Board.getBoardField(field, players[i].board) != "N" &&
+                        Board.setBoardField(field, players[i].board, "N")) {
+                        counter--;
+                    }
                 if(!(players[i] instanceof AI)) {
+                    ConsoleHandler.clearConsole();
+                    System.out.printf("%s, it's time to distribute your ships!" + "\n\n", players[i].name);
                     Board.printBoard(players[i].board);
                 }
+                }catch (Exception e){
+                continue;
+                }
             }
-            for (int j = 0; j < players[0].board.length * 2; j++) {
-                System.out.println("\n");
-            }
+            ConsoleHandler.clearConsole();
         }
-    }
-
-    public static int[] convertFieldCodeToFieldNumber(String fieldCode, String[][] board){
-        int boardColumns = (board[0].length - 2)/2;
-        String rowCode = fieldCode.substring(0,1);
-        int colCode = Integer.parseInt(fieldCode.substring(1,fieldCode.length()));
-        int index = 0;
-        for (int i = 0; i < dictionary().length; i++) {
-            if(dictionary()[i].equals(rowCode)){
-                index = i;
-            }
-        }
-        if(colCode > (boardColumns -1) || index > (board.length - 1)){
-            return new int[]{board.length +1, boardColumns + 1, 0};
-        };
-        int numericFieldCode = index * boardColumns + colCode;
-        int rowPosition = numericFieldCode/boardColumns;
-        int colPosition = numericFieldCode - (rowPosition * boardColumns);
-        return new int[]{rowPosition, colPosition,numericFieldCode};
     }
 
     public static boolean handleAttack(Player attacker, Player target){
         System.out.printf("%s is attacking %s" + "\n", attacker.name, target.name);
         String fieldTarget = attacker.attack();
-        if (Board.getBoardField(fieldTarget, target.board) == "N"){
-            Board.setBoardField(fieldTarget, target.board, "*");
-            System.out.println("Target down!" + "\n--------------------");
-            return true;
-        } else if(Board.getBoardField(fieldTarget, target.board) == " "){
-            Board.setBoardField(fieldTarget, target.board, "-");
+        try {
+            if (Board.getBoardField(fieldTarget, target.board) == "N") {
+                Board.setBoardField(fieldTarget, target.board, "*");
+                System.out.println("Target down!" + "\n--------------------\n\n");
+                return true;
+            } else if (Board.getBoardField(fieldTarget, target.board) == " ") {
+                Board.setBoardField(fieldTarget, target.board, "-");
+            }
+            System.out.println("Shot missed" + "\n--------------------\n\n");
+            return false;
+        }catch (Exception e){
+            return handleAttack(attacker, target);
         }
-        System.out.println("Shot missed" + "\n--------------------");
-        return false;
     }
 
     public static Player startGame(Player[] players){
         int alive = players.length;
+        ConsoleHandler.clearConsole();
         System.out.println("Let it rain fire! Battle start!" + "\n\n");
         Player lastStanding = null;
         while (alive > 1){
@@ -180,14 +176,15 @@ public class GameHandler {
     }
 
     public static void endGame(Player winner, Player[] players){
+        ConsoleHandler.clearConsole();
         if (!(winner instanceof AI)){
-            System.out.printf("\n\n\n\n" + "As the cannons begin to cool, and waves drive the bodies ashore," + "\n" +
+            System.out.printf("As the cannons begin to cool, and waves drive the bodies ashore," + "\n" +
                                 "may this day be graved into history." + "\n" +
                                 "Rejoice, %s, for you have defeated all your enemies!" + "\n" +
                                 "shall their blood paint the ocean red" + "\n" +
                                 "and all their past treasures, keep your pockets fed!", winner.name);
         } else{
-            System.out.printf("\n\n\n\n"+"As brave as they could be, no man nor woman could %s defeat!" + "\n" +
+            System.out.printf("As brave as they could be, no man nor woman could %s defeat!" + "\n" +
                                 "For it is indeed, a killer machine!", winner.name);
         }
     }

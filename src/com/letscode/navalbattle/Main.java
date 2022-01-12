@@ -1,4 +1,5 @@
 package com.letscode.navalbattle;
+import com.letscode.navalbattle.entities.ConsoleHandler;
 import com.letscode.navalbattle.entities.GameHandler;
 import com.letscode.navalbattle.entities.Player;
 
@@ -6,6 +7,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        ConsoleHandler.clearConsole();
         boolean replay = true;
         while (replay) {
             Player[] players = GameHandler.runIntro();
@@ -23,17 +25,20 @@ public class Main {
     public static boolean playAgain(){
         Scanner scanner = GameHandler.scanner;
         String answer = scanner.nextLine();
+        boolean check = false;
         while (!answer.equals("Y") && !answer.equals("N")){
             System.out.println("\n\n" + "Should you try again?");
             System.out.println("(Y) Yes | (N) No");
             answer = scanner.nextLine().toUpperCase();
             if (answer.equals("Y")){
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                return true;
+                check = true;
             } else if (answer.equals("N")){
-                return false;
+                System.out.println("Farewell then!");
+                check = false;
             }
         }
-        return false;
+        ConsoleHandler.clearConsole();
+        return check;
     }
 }
